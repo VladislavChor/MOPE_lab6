@@ -11,7 +11,8 @@ x2_max = 40
 x3_min = -30
 x3_max = -15
 
-# equation
+count = 0
+average_koef_unimportant = [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
 # 7,3+8,8*x1+1,3*x2+9,1*x3+2,1*x1*x1+0,1*x2*x2+2,1*x3*x3+4,6*x1*x2+0,5*x1*x3+4,1*x2*x3+7,2*x1*x2*x3
 
 values = [7.3, 8.8, 1.3, 9.1, 2.1, 0.1, 2.1, 4.6, 0.5, 4.1, 7.2]
@@ -61,11 +62,13 @@ def get_value(table: dict, key: int):
 
 
 def main(m, n):
+    global count
+    global average_koef_unimportant
     if n == 14:
         const_l = 1.73
-        print(
-            'ŷ = b0 + b1 * x1 + b2 * x2 + b3 * x3 + b12 * x1 * x2 + b13 * x1 * x3 + b23 * x2 * x3 + b123 * x1 * x2 * '
-            'x3 + b11 * x1 * x1 + b22 * x2 * x2 + b33 * x3 * x3')
+        #print(
+        #    'ŷ = b0 + b1 * x1 + b2 * x2 + b3 * x3 + b12 * x1 * x2 + b13 * x1 * x3 + b23 * x2 * x3 + b123 * x1 * x2 * '
+        #    'x3 + b11 * x1 * x1 + b22 * x2 * x2 + b33 * x3 * x3')
         norm_x = [
             [+1,     -1,     -1,      -1],
             [+1,     -1,     +1,      +1],
@@ -114,19 +117,19 @@ def main(m, n):
     for i in range(len(y_av)):
         y_av[i] = round(y_av[i], 2)
 
-    if n == 14:
-        t1 = PrettyTable(['N', 'n_x0', 'n_x1', 'n_x2', 'n_x3', 'n_x1x2', 'n_x1x3',
+    if n == 14:pass
+    """ t1 = PrettyTable(['N', 'n_x0', 'n_x1', 'n_x2', 'n_x3', 'n_x1x2', 'n_x1x3',
                           'n_x2x3', 'n_x1x2x3', 'n_x1x1', 'n_x2x2', 'n_x3x3', ] +
                          [f'y_{i + 1}' for i in range(m)] + ['y_av'])
         t2 = PrettyTable(['N', 'x_0', 'x_1', 'x_2', 'x_3', 'x1x2', 'x1x3', 'x2x3', 'x1x2x3', 'x1x1',
-                          'x2x2', 'x3x3'] + [f'y_{i + 1}' for i in range(m)] + ['y_av'])
+                          'x2x2', 'x3x3'] + [f'y_{i + 1}' for i in range(m)] + ['y_av'])"""
 
     if n == 14:
-        for i in range(n):
-            t1.add_row([i + 1] + list(norm_x[i]) + list(y[i]) + [y_av[i]])
-            t2.add_row([i + 1] + list(x[i]) + list(y[i]) + [y_av[i]])
-        print(t1)
-        print(t2)
+        for i in range(n):pass
+    #        t1.add_row([i + 1] + list(norm_x[i]) + list(y[i]) + [y_av[i]])
+    #        t2.add_row([i + 1] + list(x[i]) + list(y[i]) + [y_av[i]])
+   #     print(t1)
+    #    print(t2)
 
     m_ij = []
     for i in range(len(x[0])):
@@ -141,20 +144,20 @@ def main(m, n):
     det_i = [np.linalg.det(replace_column(m_ij, i, k_i)) for i in range(len(k_i))]
 
     b_i = [round(i / det, 3) for i in det_i]
-    if n == 14:
-        print(
+    if n == 14:pass
+    """  print(
             f"\nРівняння регресії "
             f"\ny = {b_i[0]:.5f} + {b_i[1]:.5f}*x1 + {b_i[2]:.5f}*x2 + "
             f"\n{b_i[3]:.5f}*x3 + {b_i[4]:.5f}*x1*x2 + "
             f"\n{b_i[5]:.5f}*x1*x3 + {b_i[6]:.5f}*x2*x3 + "
             f"\n{b_i[7]:.5f}*x1*x2*x3 + {b_i[8]:.5f}*x1*x1 + "
-            f"\n{b_i[9]:.5f}*x2*x2 + {b_i[10]:.5f}*x3*x3")
+            f"\n{b_i[9]:.5f}*x2*x2 + {b_i[10]:.5f}*x3*x3")"""
 
     check_i = [round(sum(b_i[j] * i[j] for j in range(len(b_i))), 3) for i in x]
-    for i in range(len(check_i)):
-        print(f'ŷ{i + 1} = {check_i[i]}, y_av{i + 1} = {y_av[i]}')
+    for i in range(len(check_i)):pass
+#       print(f'ŷ{i + 1} = {check_i[i]}, y_av{i + 1} = {y_av[i]}')
 
-    print("\nТест Кохрена")
+   # print("\nТест Кохрена")
     f_1 = m - 1
     f_2 = n
     s_i = [sum([(i - y_av[j]) ** 2 for i in y[j]]) / m for j in range(len(y))]
@@ -164,13 +167,13 @@ def main(m, n):
              range(11, 17): 0.4366, range(17, 37): 0.3720, range(37, 2 ** 100): 0.3093}
     g_t = get_value(table, m)
 
-    if g_p < g_t:
-        print(f"Дисперсія однорідна: Gp = {g_p:.5} < Gt = {g_t}")
+    if g_p < g_t:pass
+    #    print(f"Дисперсія однорідна: Gp = {g_p:.5} < Gt = {g_t}")
     else:
-        print(f"Дисперсія не однорідна: Gp = {g_p:.5} > Gt = {g_t}\nПочинаємо спочатку з m = m + 1 = {m + 1}")
+   #     print(f"Дисперсія не однорідна: Gp = {g_p:.5} > Gt = {g_t}\nПочинаємо спочатку з m = m + 1 = {m + 1}")
         return main(m=m + 1, n=n)
 
-    print("\nТест Стьюдента")
+  #  print("\nТест Стьюдента")
     s2_b = sum(s_i) / n
     s2_b_s = s2_b / (n * m)
     s_b_s = sqrt(s2_b_s)
@@ -188,22 +191,25 @@ def main(m, n):
     d = deepcopy(len(beta_i))
     for i in range(len(t)):
         if get_value(t_table, f_3) > t[i]:
+            average_koef_unimportant[i][0]+=beta_i[i]
+            average_koef_unimportant[i][1]+=1
+            count+=1
             beta_i[i] = 0
             d -= 1
     if n == d:
         n = 8 if n == 4 else 14
-        print(f"n=d\nПочинаємо спочатку n = {n} та m = {m}")
+#        print(f"n=d\nПочинаємо спочатку n = {n} та m = {m}")
         return main(m=m, n=n)
     if n == 14:
-        print(
-            f"Спрощене натуральне рівняння регресії: "
-            f"\ny = {beta_i[0]:.5f} + {beta_i[1]:.5f}*x1 + "
-            f"\n{beta_i[2]:.5f}*x2 + {beta_i[3]:.5f}*x3 + {beta_i[4]:.5f}*x1*x2 + "
-            f"\n{beta_i[5]:.5f}*x1*x3 + {beta_i[6]:.5f}*x2*x3 + {beta_i[7]:.5f}*x1*x2*x3 + "
-            f"\n{beta_i[8]:.5f}*x1*x1 + {beta_i[9]:.5f}*x2*x2 + {beta_i[10]:.5f}*x3*x3")
+   #     print(
+  #          f"Спрощене натуральне рівняння регресії: "
+  #          f"\ny = {beta_i[0]:.5f} + {beta_i[1]:.5f}*x1 + "
+  #          f"\n{beta_i[2]:.5f}*x2 + {beta_i[3]:.5f}*x3 + {beta_i[4]:.5f}*x1*x2 + "
+   #         f"\n{beta_i[5]:.5f}*x1*x3 + {beta_i[6]:.5f}*x2*x3 + {beta_i[7]:.5f}*x1*x2*x3 + "
+   #         f"\n{beta_i[8]:.5f}*x1*x1 + {beta_i[9]:.5f}*x2*x2 + {beta_i[10]:.5f}*x3*x3")
         check_i = [round(sum(beta_i[j] * i[j] for j in range(len(beta_i))), 3) for i in x]
 
-    print("\nТест Фішера")
+  #  print("\nТест Фішера")
     f_4 = n - d
     s2_ad = m / f_4 * sum([(check_i[i] - y_av[i]) ** 2 for i in range(len(y_av))])
     f_p = s2_ad / s2_b
@@ -231,14 +237,20 @@ def main(m, n):
     }
     if f_p > get_value(f_t, f_3)[f_4]:
         n = 8 if n == 4 else 14
-        print(
-            f"fp = {f_p} > ft = {get_value(f_t, f_3)[f_4]}.\n"
-            f"Модель не адекватна!\n"
-            f"Починаємо спочатку m = {m} та n = {n}\n")
+     #   print(
+     #       f"fp = {f_p} > ft = {get_value(f_t, f_3)[f_4]}.\n"
+     #       f"Модель не адекватна!\n"
+     #       f"Починаємо спочатку m = {m} та n = {n}\n")
         return main(m=m, n=n)
-    else:
-        print(
-            f"fP = {f_p} < fT = {get_value(f_t, f_3)[f_4]}.\n"
-            f"Модель адекватна\n")
-
-main(m=2, n=14)
+    else:pass
+   #     print(
+    #        f"fP = {f_p} < fT = {get_value(f_t, f_3)[f_4]}.\n"
+    #        f"Модель адекватна\n")
+for i in range(15):
+    main(m=2, n=14)
+print("Середнє значення незначимих коефіціентів:")
+for i in range(len(average_koef_unimportant)):
+    try:
+        print(average_koef_unimportant[i][0]/average_koef_unimportant[i][1],end=", ")
+    except ZeroDivisionError:
+        print(average_koef_unimportant[i][0]/1,end=", ")
